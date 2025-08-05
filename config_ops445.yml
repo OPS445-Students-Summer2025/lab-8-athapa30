@@ -1,0 +1,37 @@
+---
+- name: Deploy backup script and schedule cron job
+  hosts: centos
+  become: yes
+
+  vars:
+    backup_script_src: /mnt/backup.py
+    backup_script_dest: /root/bin/backup.py
+
+  tasks:
+    - name: Install rsync package
+      yum:
+        name: rsync
+        state: present
+
+    - name: Ensure /root/bin directory exists
+      file:
+        path: /root/bin
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Copy backup.py to root's bin directory
+      copy:
+        src: "{{ backup_script_src }}"
+        dest: "{{ backup_script_dest }}"
+        mode: '0755'
+
+    - name: Schedule backup.py to run every Friday at 2am
+      cron:
+        name: "Run backup.py"
+        minute: "0"
+        hour: "2"
+        weekday: "5"
+        user: root
+        job: "{{ backup_script_dest }}"

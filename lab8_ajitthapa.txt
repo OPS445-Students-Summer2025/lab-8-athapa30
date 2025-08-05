@@ -1,0 +1,9 @@
+Seneca ID: 160249223
+
+Tasks completed in Lab 8:
+- Connected to CentOS VM
+- Installed rsync using yum module
+- Created /root/bin and copied backup.py using copy module
+- Scheduled cron job to run every Friday at 2am using cron module
+
+Tested with Ansible and confirmed all tasks completed successfully.
